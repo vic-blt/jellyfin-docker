@@ -12,12 +12,6 @@ SECURITY="default-src https: data: blob:; style-src 'self' 'unsafe-inline'; scri
 ./init-letsencrypt.sh example.org [admin@example.org]
 ```
 
-## TODO
-- Reload nginx when SSL cert is renewed.
-
-  **NB**: `command` in `docker-compose.yml` is used as argument by [docker-entrypoint.sh](https://github.com/nginxinc/docker-nginx/blob/master/stable/alpine/docker-entrypoint.sh).
-  So, `command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"` (used to reload nginx and use new cert) will prevent [envsubst script](https://github.com/nginxinc/docker-nginx/blob/master/stable/alpine/20-envsubst-on-templates.sh) from being executed.
-
 ## Resources
 - https://pentacent.medium.com/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
 - https://github.com/wmnnd/nginx-certbot
