@@ -8,9 +8,8 @@ HOSTNAME=example.org
 SECURITY="default-src https: data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://www.gstatic.com/cv/js/sender/v1/cast_sender.js blob:; worker-src 'self' blob:; connect-src 'self'; object-src 'none'; frame-ancestors 'self'"
 ```
 - Execute `init-letsencrypt.sh` script to create an SSL certificate
-**NB**: edit `domains` and `email` variables in the script before executing it
 ```sh
-./init-letsencrypt.sh
+./init-letsencrypt.sh example.org [admin@example.org]
 ```
 
 ## TODO
