@@ -1,0 +1,47 @@
+version: "3.5"
+services:
+  jellyfin:
+    container_name: jellyfin
+    image: jellyfin/jellyfin
+    user: 0:0
+    volumes:
+      - jellyfin-config:/config
+      - jellyfin-cache:/cache
+      - /media/nas:/media
+    restart: "unless-stopped"
+    networks:
+      - local
+
+  nginx:
+    container_name: nginx
+    image: nginx:1.19-alpine
+    environment:
+      - HOSTNAME=${HOSTNAME}
+      - SECURITY=${SECURITY}
+    depends_on:
+      - jellyfin
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/default.conf.template:/etc/nginx/templates/default.conf.template
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    restart: "unless-stopped"
+    networks:
+      - local
+
+  certbot:
+    container_name: certbot
+    image: certbot/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+
+volumes:
+  jellyfin-config:
+  jellyfin-cache:
+ 
+networks:
+  local:
