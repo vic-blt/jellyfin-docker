@@ -10,6 +10,8 @@ server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
     server_name ${HOSTNAME};
+    
+    client_max_body_size 5m;
 
     set $jellyfin jellyfin;
     resolver 127.0.0.11 valid=30;
